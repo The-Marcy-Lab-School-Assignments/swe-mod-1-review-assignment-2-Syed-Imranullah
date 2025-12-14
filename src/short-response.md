@@ -26,14 +26,20 @@ Part B: How would you modify the code so that reassigning `playlist2.songCount` 
 
 ### Response 1
 
-Your response...
+Part A: The output will be `15`. In JavaScript, objects are assigned and passed by reference rather than by value. The statement `const playlist2 = playlist1;` does not create a new object; instead, it assigns `playlist2` a reference to the same memory location as `playlist1`. Constantly, modifying `playlist2.songCount` mutates the shared object, causing `playlist1.songCount` to reflect the updated value when it is logged to the console.
+
+Part B: To prevent changes to playlist2 from affecting playlist1, a copy of the object must be created. Corrected code: 
+
+
+
+The spread operator (...) creates a new object by copying iterable properties from `playlist1`. This breaks the shared reference, making sure that mutations to `playlist2` do not affect `playlist1`.
 
 **Corrected Code:**
 
-```js
-// fix this!
+```javaScript
 const playlist1 = { name: "My Favorites", songCount: 10 };
-const playlist2 = playlist1;
+const playlist2 = { ...playlist1 };
+
 playlist2.songCount = 15;
 console.log(playlist1.songCount);
 ```
@@ -60,7 +66,13 @@ For each task below, identify which array method (forEach, filter, map, find, or
 
 ### Response 2
 
-Your response...
+1. `filter` should be used because it returns a new array containing only the elements that meet a specific condition. In this case, it would return only the students whose grades are above 85.
+
+2. `find` should be used because it returns the first element that matches a given condition. This allows you to locate the student named “Destiny” and update her grade.
+
+3. `reduce` should be used because it can accumulate values into a single result. Here, it can be used to sum all student grades and then calculate the average.
+
+4. `map` should be used because it transforms each element in the array. In this case, it can create a new array of formatted strings like `"Maya: 92"`.
 
 ---
 
@@ -82,7 +94,16 @@ console.log(upperCaseLetters);
 
 ### Response 3
 
-Your response...
+The error occurs because the `capitalize` function is being invoked immediately instead of being passed as a callback to the `map` method. When `capitalize()` is called with no arguments, the parameter `str` is `undefined`, which causes the call to `str.toUpperCase()` to throw a TypeError.
+
+To fix this issue, the function reference should be passed directly to `map` without invoking it, allowing `map` to supply each array element as an argument to the function.
+
+corrected code: 
+
+```js
+const upperCaseLetters = letters.map(capitalize);
+```
+
 
 ---
 
@@ -111,4 +132,15 @@ const grandTotal = orders.reduce((sum, order) => {
 
 ### Response 4
 
-Your response...
+Part A: After the code runs, `grandTotal` will equal `135`.
+
+Part B: The `0` at the end of `reduce` is the starting value for the accumulator `(sum)`. It tells reduce where to begin adding up the totals. Having this initial value is important because it makes sure the accumulator starts with something known, avoids errors if the array is empty, and keeps the data type consistent while going through the array.
+
+Part C: Value of `sum`: `0`
+This is the initial value supplied to `reduce`.
+
+Value of `order`: `{ id: 1, total: 45 }`
+This is the first element in the orders array.
+
+Returned value: `45`
+The callback returns `sum + order.total`, which is `0 + 45`. This returned value becomes the accumulator for the next iteration.
